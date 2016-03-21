@@ -1,8 +1,9 @@
 import https from 'https';
-import fs from 'fs';
 import path from 'path';
+import fs from 'fs';
 import syncRequest from 'sync-request';
 import colors from 'colors';
+import mkdirp from 'mkdirp';
 
 const author = 'dadaturtle';
 const authorURL = `https://www.flickr.com/photos/${author}`;
@@ -13,11 +14,7 @@ const findURL = /timingCache\[\'\d+\'\]/g;
 const picturesSTRING = authorHTML.match(findURL).toString();
 const picturesURL = picturesSTRING.match(/\d+/g);
 
-fs.existsSync('download') || fs.mkdir('download');
-fs.existsSync(`download/${author}`) || fs.mkdir(`download/${author}`, (err) => {
-    console.log(err);
-  });
-
+fs.existsSync(`download/${author}`) || mkdirp(`download/${author}`);
 console.log(`Find Images ${picturesURL.length}`.yellow);
 
 let imageSN = 1;
