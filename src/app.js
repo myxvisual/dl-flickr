@@ -1,6 +1,7 @@
 import https from 'https';
-import syncRequest from 'sync-request';
 import fs from 'fs';
+import path from 'path';
+import syncRequest from 'sync-request';
 import colors from 'colors';
 
 const author = 'dadaturtle';
@@ -12,10 +13,12 @@ const findURL = /timingCache\[\'\d+\'\]/g;
 const picturesSTRING = authorHTML.match(findURL).toString();
 const picturesURL = picturesSTRING.match(/\d+/g);
 
+fs.existsSync('download') || fs.mkdir('download');
+fs.existsSync(`download/${author}`) || fs.mkdir(`download/${author}`, (err) => {
+    console.log(err);
+  });
+
 console.log(`Find Images ${picturesURL.length}`.yellow);
-if (!fs.existsSync(`download/${author}`)) {
-  fs.mkdir(`download/${author}`);
-}
 
 let imageSN = 1;
 
